@@ -27,12 +27,7 @@ set(FORMATS Standalone AU VST3)
 project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
 
 add_subdirectory(JUCE)
-
-# If you are building a VST2 or AAX plugin, CMake needs to be told where to find these SDKs on your
-# system. This setup should be done before calling `juce_add_plugin`.
-
-# juce_set_vst2_sdk_path(...)
-# juce_set_aax_sdk_path(...)
+add_subdirectory(libs/clap-juce-extensions EXCLUDE_FROM_ALL) 
 
 # `juce_add_plugin` adds a static library target with the name passed as the first argument
 # (AudioPluginExample here). This target is a normal CMake target, but has a lot of extra properties set
@@ -70,6 +65,12 @@ juce_add_plugin("${PROJECT_NAME}"
     # VST3 Categories
     # VST3_CATEGORIES Synth
     )
+    
+add_library(SharedCode INTERFACE)
+
+clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
+    CLAP_ID "${BUNDLE_ID}"
+    CLAP_FEATURES instrument synthesizer)
 
 # Enable fast math, C++20 and a few other target defaults
 include(SharedCodeDefaults)
