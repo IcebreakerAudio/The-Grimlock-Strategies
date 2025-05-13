@@ -15,7 +15,7 @@ set(PRODUCT_NAME "The Grimlock Strategies")
 set(COMPANY_NAME "Icebreaker Audio")
 
 # Used for the MacOS bundle identifier (and signing)
-set(BUNDLE_ID "com.icebreakeraudio.megabass2020")
+set(BUNDLE_ID "com.icebreakeraudio.grimlockstrats")
 
 # Options: AAX Unity VST VST3 AU AUv3 Standalone
 set(FORMATS Standalone AU VST3)
@@ -49,7 +49,7 @@ juce_add_plugin("${PROJECT_NAME}"
     PLUGIN_MANUFACTURER_CODE IceB
 
     # A unique four-character plugin id. This must have at least one upper-case character
-    PLUGIN_CODE IAMB
+    PLUGIN_CODE IAGS
 
     FORMATS "${FORMATS}"
 
@@ -65,7 +65,7 @@ juce_add_plugin("${PROJECT_NAME}"
     # VST3 Categories
     # VST3_CATEGORIES Synth
     )
-    
+
 add_library(SharedCode INTERFACE)
 
 clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
