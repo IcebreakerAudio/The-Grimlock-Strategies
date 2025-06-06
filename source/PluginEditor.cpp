@@ -1,13 +1,48 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <BinaryData.h>
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), processorRef (p)
 {
     juce::ignoreUnused (processorRef);
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+
+    auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
+    auto json = juce::JSON::parse(string);
+
+    if(!json.isObject())
+    {
+        DBG("Error loading JSON.");
+    }
+
+    auto level1 = json.getProperty("grimlock", "");
+    if(level1.toString().isEmpty())
+    {
+        DBG("Grimlock not found.");
+    }
+
+    if(level1.isArray())
+    {
+        DBG("Grimlock is array.");
+        auto level2 = level1.getArray();
+        DBG("He this big:");
+        DBG(level2->size());
+        int total = 0;
+        for(auto& e : *level2)
+        {
+            DBG("Episode:");
+            DBG(e.getProperty("episode", "episode not found").toString());
+            DBG(e.getProperty("title", "title not found").toString());
+            if(e.hasProperty("quotes"))
+            {
+                total += e.getProperty("quotes",{}).getArray()->size();
+            }
+        }
+        DBG("Total Quotes");
+        DBG(total);
+    }
+
     setSize (400, 300);
 }
 

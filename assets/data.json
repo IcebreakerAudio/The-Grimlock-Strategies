@@ -1,0 +1,111 @@
+{
+    "grimlock":
+    [
+        {
+            "episode":"S01E07", "title":"S.O.S. Dinobots", "link":"https://youtu.be/5xOg3uBAL6s?si=mAr1VdqtWoxMRUKr",
+            "quotes":
+            [
+                {"0":"We do as told... for now."}
+            ]
+        },
+        {
+            "episode":"S01E09", "title":"The Ultimate Doom: Search, Part 2", "link":"https://youtu.be/SX36bwRNqoo?si=2X2R99eECWdNdlO6",
+            "quotes":
+            [
+                {"0":"Me, Grimlock not care whole planet fall apart. Make no difference to me, Grimlock."}
+            ]
+        },
+        {
+            "episode":"S01E11", "title":"War of the Dinobots", "link":"https://youtu.be/rCiGsIbZsPI?si=S80EkNQ3AWQ5qAsJ",
+            "quotes":
+            [
+                {"0":"Not planes ... Decepticons."},
+                {"1":"Me, Grimlock stronger. Me, Grimlock must lead."},
+                {"2":"Goodbye friend. You are weak, so you must be destroyed."},
+                {"3":"Wait."},
+                {"4":"Why? Not know."},
+                {"5":"Me, Grimlock was jealous of you."},
+                {"6":"Bad Megatron!"}
+            ]
+        },
+        {
+            "episode":"S01E14", "title":"Heavy Metal War", "link":"https://youtu.be/g4eqsJ72_7Q?si=Rs4uwgFUGRh_NPCA",
+            "quotes":
+            [
+                {"0":"Dinobots, Transform!"}
+            ]
+        },
+        {
+            "episode":"S02E03", "title":"Dinobot Island, Part 1", "link":"https://youtu.be/JhEihzYFJa4?si=6Sh6fa0bshFsGwCt",
+            "quotes":
+            [
+                {"0":"Me, Grimlock demonstrating finesse (whatever that mean)."},
+                {"1":"Dinobots, transform and end chaos!"},
+                {"2":"Feel like home to me, Grimlock, but not know why."},
+                {"3":"Good place for Dinobot tests."},
+                {"4":"Do tail stuff."},
+                {"5":"Getting better, but still not more better enough."}
+            ]
+        },
+        {
+            "episode":"S02E04", "title":"Dinobot Island, Part 2", "link":"https://youtu.be/aHIXhia5iks?si=kBebmYKfHpsSq7Aw",
+            "quotes":
+            [
+                {"0":"Me, Grimlock, everybody free!"},
+                {"1":"Me, Grimlock smart. Inspire dumb dinos."},
+                {"2":"You wrong, and you ugly too!"}
+            ]
+        },
+        {
+            "episode":"S02E09", "title":"Atlantis, Arise!", "link":"https://youtu.be/RWnwAYPMf2A?si=MXJfP9an8TYICTrz",
+            "quotes":
+            [
+                {"0":"Here come me, Grimlock!"},
+                {"1":"Autobots bite off more than they can chew, then send for Dinobots."},
+                {"2":"Me, Grimlock here again Optimus Prime, to pull your diodes out of laser fire."},
+                {"3":"Good, Megatron! We love stupid enemies."}
+            ]
+        },
+        {
+            "episode":"S02E14", "title":"Day of the Machines", "link":"https://youtu.be/yG5GwNKW1RE?si=WdcpAjIOu3nNS4el",
+            "quotes":
+            [
+                {"0":"Always get Autobots out of messes they get into."}
+            ]
+        },
+        {
+            "episode":"S02E19", "title":"Desertion of the Dinobots, Part 1", "link":"https://youtu.be/fe6sGQHFbW8?si=37bNfG6RHpQvlZxT",
+            "quotes":
+            [
+                {"0": "Me, Grimlock no like orders."},
+                {"1": "No! Dinobots no go!"},
+                {"2": "Me, Grimlock no take orders. Never."},
+                {"3": "Us fight when us want to."},
+                {"4": "Make trouble, me, Grimlock crush you."},
+                {"5": "Me, Grimlock Dinobot!"},
+                {"6": "We no stand back!"},
+                {"7": "Me, Grimlock no come back."}
+            ]
+        },
+        {
+            "episode":"S02E20", "title":"Desertion of the Dinobots, Part 2", "link":"https://youtu.be/Ic5hLhxDaZ8?si=slQ31J1XhjrbLQld",
+            "quotes":
+            [
+                {"0": "Me, Grimlock guess helping others ok."},
+                {"1": "No! Me Hate you!"},
+                {"2": "Me not do what you say."},
+                {"3": "Dinobot no work with human."},
+                {"4": "Me, Grimlock. Me know way. Follow!"},
+                {"5": "Grimlock need no car!"},
+                {"6": "... until next time me, Grimlock no feel like it."}
+            ]
+        },
+        {
+            "episode":"Movie", "title":"The Transformers: The Movie", "link":"https://tfwiki.net/wiki/The_Transformers:_The_Movie",
+            "quotes":
+            [
+                {"0": ""}
+            ]
+        }
+    ]
+}
