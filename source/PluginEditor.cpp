@@ -1,12 +1,19 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include <BinaryData.h>
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), processorRef (p)
 {
     juce::ignoreUnused (processorRef);
+
+    // set default font
+    auto& lnf = getLookAndFeel();
+    lnf.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::PressStart2PRegular_ttf, BinaryData::PressStart2PRegular_ttfSize));
+    lnf.setColour(juce::Label::ColourIds::textColourId, juce::Colour(0xFFD9FEFA));
+
+    // load background svg
+    background = juce::Drawable::createFromImageData(BinaryData::Background_svg, BinaryData::Background_svgSize);
 
     auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
     auto json = juce::JSON::parse(string);
@@ -16,34 +23,58 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
         DBG("Error loading JSON.");
     }
 
-    auto level1 = json.getProperty("grimlock", "");
-    if(level1.toString().isEmpty())
+    auto grimlock = json.getProperty("grimlock", "");
+    if(grimlock.toString().isEmpty())
     {
         DBG("Grimlock not found.");
     }
 
-    if(level1.isArray())
+    if(!grimlock.isArray())
     {
-        DBG("Grimlock is array.");
-        auto level2 = level1.getArray();
-        DBG("He this big:");
-        DBG(level2->size());
-        int total = 0;
-        for(auto& e : *level2)
-        {
-            DBG("Episode:");
-            DBG(e.getProperty("episode", "episode not found").toString());
-            DBG(e.getProperty("title", "title not found").toString());
-            if(e.hasProperty("quotes"))
-            {
-                total += e.getProperty("quotes",{}).getArray()->size();
-            }
-        }
-        DBG("Total Quotes");
-        DBG(total);
+        DBG("Grimlock not array.");
     }
 
-    setSize (400, 300);
+    QuoteGenerator quoteGen;
+    auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
+
+    quoteInfo.printDebugInfo();
+
+    display.setQuoteInfo(quoteInfo);
+    addAndMakeVisible(display);
+
+    addAndMakeVisible(reroll);
+    reroll.onClick = [&]()
+    {
+        auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
+        auto json = juce::JSON::parse(string);
+
+        if(!json.isObject())
+        {
+            DBG("Error loading JSON.");
+        }
+
+        auto grimlock = json.getProperty("grimlock", "");
+        if(grimlock.toString().isEmpty())
+        {
+            DBG("Grimlock not found.");
+        }
+
+        if(!grimlock.isArray())
+        {
+            DBG("Grimlock not array.");
+        }
+
+        QuoteGenerator quoteGen;
+        auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
+
+        quoteInfo.printDebugInfo();
+        display.setQuoteInfo(quoteInfo);
+    };
+
+    setResizable(true, true);
+    auto windowConstrainer = getConstrainer();
+    windowConstrainer->setFixedAspectRatio(4.0 / 3.0);
+    setSize (750, 562);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
@@ -53,16 +84,23 @@ AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
 //==============================================================================
 void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.fillAll(juce::Colours::black);
+    background->drawWithin(g, getLocalBounds().toFloat(), juce::RectanglePlacement::fillDestination, 1.0f);
 }
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    auto bounds = getLocalBounds();
+    auto sizeRatio = bounds.toFloat().getWidth() / 750.0f;
+
+    display.setSizeRatio(sizeRatio);
+
+    display.setBounds(
+        juce::roundToInt(94.0f * sizeRatio),
+        juce::roundToInt(76.0f * sizeRatio),
+        juce::roundToInt(560.0f * sizeRatio),
+        juce::roundToInt(398.0f * sizeRatio)
+    );
+
+    reroll.setBounds(0,0,150,25);
 }

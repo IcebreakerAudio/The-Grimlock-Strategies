@@ -1,6 +1,11 @@
 #pragma once
 
+#include "QuoteGenerator.hpp"
 #include "PluginProcessor.h"
+#include <BinaryData.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+
+#include "ScreenDisplay.hpp"
 
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
@@ -14,9 +19,13 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+
     AudioPluginAudioProcessor& processorRef;
+
+    std::unique_ptr<juce::Drawable> background;
+    ScreenDisplay display;
+
+    juce::TextButton reroll {"Reroll", "Reroll"};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

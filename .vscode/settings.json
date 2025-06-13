@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.ost": "typescript",
+        "*.mm": "cpp"
+    }
+}
