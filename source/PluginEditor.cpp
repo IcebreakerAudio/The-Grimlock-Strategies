@@ -5,7 +5,8 @@
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), processorRef (p)
 {
-    juce::ignoreUnused (processorRef);
+    processorRef.quoteValue.addListener(this);
+    auto quoteIndex = processorRef.getQuoteIndex();
 
     // set default font
     auto& lnf = getLookAndFeel();
@@ -15,61 +16,36 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     // load background svg
     background = juce::Drawable::createFromImageData(BinaryData::Background_svg, BinaryData::Background_svgSize);
 
-    auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
-    auto json = juce::JSON::parse(string);
-
-    if(!json.isObject())
-    {
-        DBG("Error loading JSON.");
-    }
-
-    auto grimlock = json.getProperty("grimlock", "");
-    if(grimlock.toString().isEmpty())
-    {
-        DBG("Grimlock not found.");
-    }
-
-    if(!grimlock.isArray())
-    {
-        DBG("Grimlock not array.");
-    }
-
+    auto grimlock = getGrimlockData();
     QuoteGenerator quoteGen;
-    auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
+    GrimlockQuote quoteInfo;
+    if(quoteIndex == -1) {
+        quoteInfo = quoteGen.generateRandomQuote(grimlock);
+        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
+    }
+    else {
+        quoteInfo = quoteGen.getQuoteFromIndex(grimlock, quoteIndex);
+    }
 
     quoteInfo.printDebugInfo();
 
     display.setQuoteInfo(quoteInfo);
     addAndMakeVisible(display);
 
+    // this button is for debugging mostly
+    /*
     addAndMakeVisible(reroll);
     reroll.onClick = [&]()
     {
-        auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
-        auto json = juce::JSON::parse(string);
-
-        if(!json.isObject())
-        {
-            DBG("Error loading JSON.");
-        }
-
-        auto grimlock = json.getProperty("grimlock", "");
-        if(grimlock.toString().isEmpty())
-        {
-            DBG("Grimlock not found.");
-        }
-
-        if(!grimlock.isArray())
-        {
-            DBG("Grimlock not array.");
-        }
-
+        auto grimlock = getGrimlockData();
         QuoteGenerator quoteGen;
         auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
 
         quoteInfo.printDebugInfo();
         display.setQuoteInfo(quoteInfo);
+        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
     };
+    */
 
     setResizable(true, true);
     auto windowConstrainer = getConstrainer();
@@ -79,6 +55,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
 {
+    processorRef.quoteValue.removeListener(this);
 }
 
 //==============================================================================
@@ -103,4 +80,29 @@ void AudioPluginAudioProcessorEditor::resized()
     );
 
     reroll.setBounds(0,0,150,25);
+}
+
+juce::var AudioPluginAudioProcessorEditor::getGrimlockData()
+{
+    auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
+    auto json = juce::JSON::parse(string);
+    return json.getProperty("grimlock", "");
+}
+
+void AudioPluginAudioProcessorEditor::valueChanged(juce::Value& value)
+{
+    juce::ignoreUnused(value);
+    auto quoteIndex = int(processorRef.quoteValue.getValue());
+    auto grimlock = getGrimlockData();
+    QuoteGenerator quoteGen;
+    GrimlockQuote quoteInfo;
+    if(quoteIndex == -1) {
+        quoteInfo = quoteGen.generateRandomQuote(grimlock);
+        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
+    }
+    else {
+        quoteInfo = quoteGen.getQuoteFromIndex(grimlock, quoteIndex);
+    }
+    quoteInfo.printDebugInfo();
+    display.setQuoteInfo(quoteInfo);
 }

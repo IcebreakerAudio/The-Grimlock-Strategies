@@ -17,19 +17,18 @@ public:
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
 
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-    using AudioProcessor::processBlock;
 
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
 
     //==============================================================================
-    const juce::String getName() const override;
+    const juce::String getName() const override { return JucePlugin_Name; }
 
-    bool acceptsMidi() const override;
-    bool producesMidi() const override;
-    bool isMidiEffect() const override;
-    double getTailLengthSeconds() const override;
+    bool acceptsMidi() const override { return false; }
+    bool producesMidi() const override { return false; }
+    bool isMidiEffect() const override { return false; }
+    double getTailLengthSeconds() const override { return 0.0; }
 
     //==============================================================================
     int getNumPrograms() override;
@@ -42,7 +41,17 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    int getQuoteIndex() { return quoteIndex; }
+    void setQuoteIndex(int index) {
+        quoteIndex = index;
+    }
+
+    juce::Value quoteValue { juce::var(-1) };
+
 private:
     //==============================================================================
+
+    int quoteIndex = -1;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

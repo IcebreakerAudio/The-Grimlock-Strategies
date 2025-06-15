@@ -18,7 +18,7 @@ set(COMPANY_NAME "Icebreaker Audio")
 set(BUNDLE_ID "com.icebreakeraudio.grimlockstrats")
 
 # Options: AAX Unity VST VST3 AU AUv3 Standalone
-set(FORMATS Standalone AU VST3)
+set(FORMATS Standalone AU VST3 LV2)
 
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
@@ -63,14 +63,17 @@ juce_add_plugin("${PROJECT_NAME}"
     NEEDS_MIDI_INPUT FALSE
 
     # VST3 Categories
-    # VST3_CATEGORIES Synth
+    VST3_CATEGORIES Fx
+
+    # LV2 URI
+    LV2URI "urn://${BUNDLE_ID}"
     )
 
 add_library(SharedCode INTERFACE)
 
 clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
     CLAP_ID "${BUNDLE_ID}"
-    CLAP_FEATURES instrument synthesizer)
+    CLAP_FEATURES audio-effect)
 
 # Enable fast math, C++20 and a few other target defaults
 include(SharedCodeDefaults)

@@ -8,7 +8,7 @@
 #include "ScreenDisplay.hpp"
 
 //==============================================================================
-class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
+class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor, public juce::Value::Listener
 {
 public:
     explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor&);
@@ -18,6 +18,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void valueChanged(juce::Value& value) override;
+
 private:
 
     AudioPluginAudioProcessor& processorRef;
@@ -26,6 +28,8 @@ private:
     ScreenDisplay display;
 
     juce::TextButton reroll {"Reroll", "Reroll"};
+
+    juce::var getGrimlockData(); 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };
