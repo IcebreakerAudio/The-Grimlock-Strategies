@@ -10,7 +10,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     // set default font
     auto& lnf = getLookAndFeel();
-    lnf.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::PressStart2PRegular_ttf, BinaryData::PressStart2PRegular_ttfSize));
+    lnf.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::Jersey10Regular_ttf, BinaryData::Jersey10Regular_ttfSize));
     lnf.setColour(juce::Label::ColourIds::textColourId, juce::Colour(0xFFD9FEFA));
 
     // load background svg
@@ -32,20 +32,21 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     display.setQuoteInfo(quoteInfo);
     addAndMakeVisible(display);
 
-    // this button is for debugging mostly
-    /*
-    addAndMakeVisible(reroll);
-    reroll.onClick = [&]()
-    {
-        auto grimlock = getGrimlockData();
-        QuoteGenerator quoteGen;
-        auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
+    // this button is for testing and debugging
+    #if JUCE_DEBUG
+        addAndMakeVisible(reroll);
+        reroll.onClick = [&]()
+        {
+            auto grimlock = getGrimlockData();
+            QuoteGenerator quoteGen;
+            auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
 
-        quoteInfo.printDebugInfo();
-        display.setQuoteInfo(quoteInfo);
-        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
-    };
-    */
+            quoteInfo.printDebugInfo();
+            display.setQuoteInfo(quoteInfo);
+            processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
+        };
+    #endif
+    
 
     setResizable(true, true);
     auto windowConstrainer = getConstrainer();
@@ -79,7 +80,9 @@ void AudioPluginAudioProcessorEditor::resized()
         juce::roundToInt(398.0f * sizeRatio)
     );
 
-    reroll.setBounds(0,0,150,25);
+    #if JUCE_DEBUG
+        reroll.setBounds(0,0,150,25);
+    #endif
 }
 
 juce::var AudioPluginAudioProcessorEditor::getGrimlockData()
