@@ -9,7 +9,7 @@
             ]
         },
         {
-            "episode":"S01E09", "title":"The Ultimate Doom:\nSearch, Part 2", "link":"https://youtu.be/SX36bwRNqoo?si=2X2R99eECWdNdlO6",
+            "episode":"S01E09", "title":"The Ultimate Doom: Search, Part 2", "link":"https://youtu.be/SX36bwRNqoo?si=2X2R99eECWdNdlO6",
             "quotes":
             [
                 {"0":"Me, Grimlock not care whole planet fall apart. Make no difference to me, Grimlock."}
@@ -20,7 +20,7 @@
             "quotes":
             [
                 {"0":"Not planes ... Decepticons."},
-                {"1":"Me, Grimlock stronger. Me, Grimlock must lead."},
+                {"1":"Me, Grimlock stronger.\nMe, Grimlock must lead."},
                 {"2":"Goodbye friend. You are weak, so you must be destroyed."},
                 {"3":"Wait."},
                 {"4":"Why? Not know."},
@@ -36,10 +36,10 @@
             ]
         },
         {
-            "episode":"S02E03", "title":"Dinobot Island\nPart 1", "link":"https://youtu.be/JhEihzYFJa4?si=6Sh6fa0bshFsGwCt",
+            "episode":"S02E03", "title":"Dinobot Island Part 1", "link":"https://youtu.be/JhEihzYFJa4?si=6Sh6fa0bshFsGwCt",
             "quotes":
             [
-                {"0":"Me, Grimlock demonstrating finesse (whatever that mean)."},
+                {"0":"Me, Grimlock demonstrating finesse\n(whatever that mean)."},
                 {"1":"Dinobots, transform and end chaos!"},
                 {"2":"Feel like home to me, Grimlock, but not know why."},
                 {"3":"Good place for Dinobot tests."},
@@ -48,7 +48,7 @@
             ]
         },
         {
-            "episode":"S02E04", "title":"Dinobot Island\nPart 2", "link":"https://youtu.be/aHIXhia5iks?si=kBebmYKfHpsSq7Aw",
+            "episode":"S02E04", "title":"Dinobot Island Part 2", "link":"https://youtu.be/aHIXhia5iks?si=kBebmYKfHpsSq7Aw",
             "quotes":
             [
                 {"0":"Me, Grimlock, everybody free!"},
@@ -62,8 +62,8 @@
             [
                 {"0":"Here come me, Grimlock!"},
                 {"1":"Autobots bite off more than they can chew, then send for Dinobots."},
-                {"2":"Me, Grimlock here again Optimus Prime, to pull your diodes out of laser fire."},
-                {"3":"Good, Megatron! We love stupid enemies."}
+                {"2":"Me, Grimlock here again..."},
+                {"3":"Good, Megatron!\nWe love stupid enemies."}
             ]
         },
         {
@@ -74,21 +74,21 @@
             ]
         },
         {
-            "episode":"S02E19", "title":"Desertion of the\nDinobots Part 1", "link":"https://youtu.be/fe6sGQHFbW8?si=37bNfG6RHpQvlZxT",
+            "episode":"S02E19", "title":"Desertion of the Dinobots Part 1", "link":"https://youtu.be/fe6sGQHFbW8?si=37bNfG6RHpQvlZxT",
             "quotes":
             [
                 {"0": "Me, Grimlock no like orders."},
                 {"1": "No! Dinobots no go!"},
                 {"2": "Me, Grimlock no take orders. Never."},
                 {"3": "Us fight when us want to."},
-                {"4": "Make trouble, me, Grimlock crush you."},
+                {"4": "Make trouble,\nme, Grimlock crush you."},
                 {"5": "Me, Grimlock Dinobot!"},
                 {"6": "We no stand back!"},
                 {"7": "Me, Grimlock no come back."}
             ]
         },
         {
-            "episode":"S02E20", "title":"Desertion of the\nDinobots Part 2", "link":"https://youtu.be/Ic5hLhxDaZ8?si=slQ31J1XhjrbLQld",
+            "episode":"S02E20", "title":"Desertion of the Dinobots Part 2", "link":"https://youtu.be/Ic5hLhxDaZ8?si=slQ31J1XhjrbLQld",
             "quotes":
             [
                 {"0": "Me, Grimlock guess helping others ok."},
@@ -101,45 +101,91 @@
             ]
         },
         {
-            "episode":"Movie", "title":"The Transformers:\nThe Movie", "link":"https://tfwiki.net/wiki/The_Transformers:_The_Movie",
+            "episode":"Movie", "title":"The Transformers: The Movie", "link":"https://tfwiki.net/wiki/The_Transformers:_The_Movie",
             "quotes":
             [
                 {"0": "Me, Grimlock love challenge"},
-                {"1": "Me, Grimlock no nice dino. Me bash brains!"},
+                {"1": "Me, Grimlock no nice dino.\nMe bash brains!"},
                 {"2": "Me, Grimlock love Kup's war stories."},
                 {"3": "Tell Grimlock about Petrorabits again."},
-                {"4": "Me, Grimlock know all about wipers. Want to hear good part of story!"},
+                {"4": "Me, Grimlock know all about wipers.\nWant to hear good part of story!"},
                 {"5": "Me, Grimlock say you full of cesium salami!"},
                 {"6": "Me, Grimlock no like you!"},
                 {"7": "Me, Grimlock fool?"},
                 {"8": "Me, Grimlock say we on our way."},
                 {"9": "Me, Grimlock want to munch metal."},
                 {"10": "Me, Grimlock no bozo, me king!"},
-                {"11": "Me, Grimlock not kisser. Me, Grimlock king!"},
+                {"11": "Me, Grimlock not kisser.\nMe, Grimlock king!"},
                 {"12": "Me, Grimlock kick butt!"},
                 {"13": "Me, Grimlock need new strategy."}
             ]
         },
         {
-            "episode":"S03E01", "title":"Five Faces of\nDarkness Part 1", "link":"https://youtu.be/Rp7qxd3c31s?si=ncGaga9X4aZZl2hk",
+            "episode":"S03E01", "title":"Five Faces of Darkness Part 1", "link":"https://youtu.be/Rp7qxd3c31s?si=ncGaga9X4aZZl2hk",
             "quotes":
             [
-                {"0": "Me, Grimlock not feel sorry. Me, Grimlock laugh."},
+                {"0": "Me, Grimlock not feel sorry.\nMe, Grimlock laugh."},
                 {"1": "Me, Grimlock not afraid..."}
             ]
         },
         {
-            "episode":"S03E02", "title":"Five Faces of\nDarkness Part 2", "link":"https://youtu.be/p3lMYnL28nw?si=eP1maFSTHGm5o41D",
+            "episode":"S03E02", "title":"Five Faces of Darkness Part 2", "link":"https://youtu.be/p3lMYnL28nw?si=eP1maFSTHGm5o41D",
             "quotes":
             [
                 {"0": "But if not they, who are?"},
                 {"1": "Me, Grimlock like big fight."},
                 {"2": "Me, Grimlock no hurt."},
-                {"3": "Me, Grimlock like shooting when can't miss."},
+                {"3": "Me, Grimlock like shooting\nwhen can't miss."},
                 {"4": "Me, Grimlock demand you wake up."},
                 {"5": "They hidden inside you?"},
                 {"6": "Me, Grimlock rescue you."},
                 {"7": "Geronimo!"}
+            ]
+        },
+        {
+            "episode":"S03E04", "title":"Five Faces of Darkness Part 4", "link":"https://youtu.be/JE49Ym3jhVE?si=qFNKjI_YJCmegAUT",
+            "quotes":
+            [
+                {"0": "Me, Grimlock say shut your faces!"}
+            ]
+        },
+        {
+            "episode":"S03E07", "title":"Chaos", "link":"https://youtu.be/XbATwtlvPzI?si=nK3dVuBkBrx0h031",
+            "quotes":
+            [
+                {"0": "You meet up with Chaos?"},
+                {"1": "Me, Grimlock say please."},
+                {"2": "Me, Grimlock no understand."},
+                {"3": "Me, Grimlock tired of waiting."},
+                {"4": "Where it come from?"},
+                {"5": "Why it make noise?"},
+                {"6": "We all go together."},
+                {"7": "Me, Grimlock never afraid of Chaos."},
+                {"8": "Me, Grimlock want to hear story..."}
+            ]
+        },
+        {
+            "episode":"S03E10", "title":"Thief in the Night", "link":"https://youtu.be/wJRbObSEAIY?si=hoTkcBf1qiwOYZ5j",
+            "quotes":
+            [
+                {"0": "Me say fast-forward to good part."},
+                {"1": "Me, Grimlock say this grim."}
+            ]
+        },
+        {
+            "episode":"S03E13", "title":"Madman's Paradise", "link":"https://youtu.be/th21FtuiSZI?si=SOwR4AXeyXjNbVC1",
+            "quotes":
+            [
+                {"0": "Me, Grimlock play."},
+                {"1": "Me, Grimlock coming!"},
+                {"2": "Not monster.\nHandsome like me, Grimlock."},
+                {"3": "Make mistake?"},
+                {"4": "Me, Grimlock not like."},
+                {"5": "Not like noise, but taste ok."},
+                {"6": "Me, Grimlock not over-do."},
+                {"7": "Sound good to me, Grimlock."},
+                {"8": "Me, Grimlock mixed up."},
+                {"9": "What's so funny?"}
             ]
         }
     ]
