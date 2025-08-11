@@ -51,7 +51,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     setResizable(true, true);
     auto windowConstrainer = getConstrainer();
     windowConstrainer->setFixedAspectRatio(4.0 / 3.0);
-    setSize (750, 562);
+    setSize (928, 696);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()

@@ -27,7 +27,9 @@ private:
     std::unique_ptr<juce::Drawable> background;
     ScreenDisplay display;
 
-    juce::TextButton reroll {"Reroll", "Reroll"};
+    #if JUCE_DEBUG
+        juce::TextButton reroll {"Reroll", "Reroll"};
+    #endif
 
     juce::var getGrimlockData(); 
 
