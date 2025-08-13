@@ -20,6 +20,8 @@ ScreenDisplay::ScreenDisplay()
     addAndMakeVisible(quote);
     addAndMakeVisible(epCode);
     addAndMakeVisible(epName);
+
+    addAndMakeVisible(scanLines);
 }
 
 void ScreenDisplay::paint(juce::Graphics& g)
@@ -31,6 +33,8 @@ void ScreenDisplay::resized()
 {
     auto bounds = getLocalBounds();
     const auto kerning = 0.1f;
+
+    scanLines.setBounds(bounds);
 
     title.setBounds(bounds.removeFromTop(juce::roundToInt(37.0f * sizeRatio)));
     title.setFont(juce::Font(juce::FontOptions().withHeight(37.0f * sizeRatio).withKerningFactor(kerning)));
@@ -85,4 +89,35 @@ void ScreenDisplay::setQuoteInfo(GrimlockQuote& quoteInfo)
 void ScreenDisplay::setSizeRatio(float newSizeRatio)
 {
     sizeRatio = newSizeRatio;
+    scanLines.setLineThickness(sizeRatio * 2.0f);
+}
+
+//========================================================
+
+ScreenDisplay::ScanLines::ScanLines()
+{
+    setInterceptsMouseClicks(false, false);
+}
+
+void ScreenDisplay::ScanLines::paint(juce::Graphics& g)
+{
+    g.setColour(lineColour);
+
+    for(float i = 0.0f; i < numLines; i += 1.0f)
+    {
+        auto posY = drawingBounds.getHeight() * i / numLines;
+
+        g.fillRect(0.0f, posY, drawingBounds.getWidth(), thickness);
+    }
+}
+
+void ScreenDisplay::ScanLines::resized()
+{
+    drawingBounds = getLocalBounds().toFloat();
+    numLines = std::floor(drawingBounds.getHeight() / (thickness * 2.0f));
+}
+
+void ScreenDisplay::ScanLines::setLineThickness(float newThickness)
+{
+    thickness = newThickness;
 }

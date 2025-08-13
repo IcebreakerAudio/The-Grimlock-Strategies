@@ -25,4 +25,29 @@ private:
 
     float sizeRatio = 1.0f;
 
+    //========================================================
+
+    class ScanLines : public juce::Component
+    {
+    public:
+
+        ScanLines();
+
+        void paint(juce::Graphics& g) override;
+        void resized() override;
+
+        void setLineThickness(float newThickness);
+
+    private:
+
+        float thickness = 1.5f;
+        float numLines = 0.0f;
+        juce::Rectangle<float> drawingBounds;
+
+        const juce::Colour lineColour { 0x2F14191D };
+
+    };
+
+    ScanLines scanLines;
+
 };
