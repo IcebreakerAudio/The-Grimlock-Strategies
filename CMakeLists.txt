@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 3.25)
 
+# Set default build type if not specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 # Tell cmake we have files in the /cmake folder
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-include (PamplejuceVersion)
-include (CPM)
+include(PamplejuceVersion)
+include(CPM)
 include(PamplejuceMacOS)
-include(JUCEDefaults)
+include(CompilerDefaults)
 
 # project name cannot have spaces, but product can
 set(PROJECT_NAME "TheGrimlockStrategies")
@@ -17,8 +23,15 @@ set(COMPANY_NAME "Icebreaker Audio")
 # Used for the MacOS bundle identifier (and signing)
 set(BUNDLE_ID "com.icebreakeraudio.grimlockstrats")
 
+# Plugin format options - customize based on target platforms
 # Options: AAX Unity VST VST3 AU AUv3 Standalone
 set(FORMATS Standalone AU VST3 LV2)
+
+# Plugin configuration constants
+set(PLUGIN_IS_SYNTH FALSE)
+set(PLUGIN_NEEDS_MIDI FALSE)
+set(PLUGIN_VST3_CATEGORY "Fx Tools")
+set(PLUGIN_CLAP_FEATURES "audio-effect")
 
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
@@ -26,12 +39,15 @@ set(FORMATS Standalone AU VST3 LV2)
 
 project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
 
+# Check C++23 compiler support after CXX language is enabled
+check_cxx23_support()
+
 add_subdirectory(JUCE)
 add_subdirectory(libs/clap-juce-extensions EXCLUDE_FROM_ALL) 
 
-# `juce_add_plugin` adds a static library target with the name passed as the first argument
-# (AudioPluginExample here). This target is a normal CMake target, but has a lot of extra properties set
-# up by default. As well as this shared code static library, this function adds targets for each of
+# `juce_add_plugin` adds a static library target with the name passed as the first argument.
+# This target is a normal CMake target, but has a lot of extra properties set up by default.
+# As well as this shared code static library, this function adds targets for each of
 # the formats specified by the FORMATS arguments. This function accepts many optional arguments.
 # Check the readme at `docs/CMake API.md` in the JUCE repo for the full list.
 
@@ -56,14 +72,12 @@ juce_add_plugin("${PROJECT_NAME}"
     # You might want to use v${MAJOR_VERSION} here once you go to v2...
     PRODUCT_NAME "${PRODUCT_NAME}"
     
-    # Is it a synth?
-    IS_SYNTH FALSE
+    # Plugin behavior configuration
+    IS_SYNTH ${PLUGIN_IS_SYNTH}
+    NEEDS_MIDI_INPUT ${PLUGIN_NEEDS_MIDI}
 
-    # Does it need MIDI In?
-    NEEDS_MIDI_INPUT FALSE
-
-    # VST3 Categories
-    VST3_CATEGORIES Fx
+    # VST3 Categories - This is a utility/tool plugin
+    VST3_CATEGORIES ${PLUGIN_VST3_CATEGORY}
 
     # LV2 URI
     LV2URI "urn://${BUNDLE_ID}"
@@ -73,10 +87,10 @@ add_library(SharedCode INTERFACE)
 
 clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
     CLAP_ID "${BUNDLE_ID}"
-    CLAP_FEATURES audio-effect)
+    CLAP_FEATURES ${PLUGIN_CLAP_FEATURES})
 
-# Enable fast math, C++20 and a few other target defaults
-include(SharedCodeDefaults)
+# Enable fast math, C++23 and a few other target defaults
+apply_shared_code_defaults()
 
 file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/source/*.h")
 target_sources(SharedCode INTERFACE ${SourceFiles})
@@ -109,9 +123,7 @@ target_link_libraries(SharedCode
     INTERFACE
     Assets
     juce_core
-    juce_audio_utils
-    juce_audio_processors
-    juce_dsp
+    juce_audio_utils        # Basic audio plugin structure
     juce_gui_basics
     juce_gui_extra
     juce::juce_recommended_config_flags
