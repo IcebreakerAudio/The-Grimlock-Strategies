@@ -39,9 +39,6 @@ set(PLUGIN_CLAP_FEATURES "audio-effect")
 
 project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
 
-# Check C++23 compiler support after CXX language is enabled
-check_cxx23_support()
-
 add_subdirectory(JUCE)
 add_subdirectory(libs/clap-juce-extensions EXCLUDE_FROM_ALL) 
 
@@ -123,7 +120,7 @@ target_link_libraries(SharedCode
     INTERFACE
     Assets
     juce_core
-    juce_audio_utils        # Basic audio plugin structure
+    juce_audio_utils
     juce_gui_basics
     juce_gui_extra
     juce::juce_recommended_config_flags

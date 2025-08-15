@@ -2,15 +2,6 @@
 # Compiler and Build Configuration Defaults
 # ============================================================================
 
-# C++23 compiler check function (to be called after project() command)
-function(check_cxx23_support)
-    include(CheckCXXCompilerFlag)
-    check_cxx_compiler_flag(-std=c++23 COMPILER_SUPPORTS_CXX23)
-    if(NOT COMPILER_SUPPORTS_CXX23 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        message(WARNING "Compiler may not fully support C++23. Build may fail.")
-    endif()
-endfunction()
-
 # IDE Organization
 # Adds all the module sources so they appear correctly in the IDE
 # Must be set before JUCE is added as a sub-dir (or any targets are made)
