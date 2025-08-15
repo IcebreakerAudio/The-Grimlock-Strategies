@@ -1,26 +1,9 @@
 #include "ScreenDisplay.hpp"
 
-ScreenDisplay::ScreenDisplay()
+ScreenDisplay::ScreenDisplay() : bloomLayer(displayLayer)
 {
-    title.setText("The Grimlock Strategies", juce::dontSendNotification);
-    linkButton.setButtonText("Watch >>");
-
-    title.setJustificationType(juce::Justification::centred);
-    quote.setJustificationType(juce::Justification::centred);
-    epCode.setJustificationType(juce::Justification::centred);
-    epName.setJustificationType(juce::Justification::centred);
-
-    quote.setMinimumHorizontalScale(0.95f);
-    quote.setColour(juce::Label::ColourIds::backgroundColourId, juce::Colour(0xC014191D));
-
-    addAndMakeVisible(screenshot);
-
-    addAndMakeVisible(linkButton);
-    addAndMakeVisible(title);
-    addAndMakeVisible(quote);
-    addAndMakeVisible(epCode);
-    addAndMakeVisible(epName);
-
+    addAndMakeVisible(displayLayer);
+    addAndMakeVisible(bloomLayer);
     addAndMakeVisible(scanLines);
 }
 
@@ -31,10 +14,58 @@ void ScreenDisplay::paint(juce::Graphics& g)
 
 void ScreenDisplay::resized()
 {
+    const auto bounds = getLocalBounds();
+
+    displayLayer.setBounds(bounds);
+    bloomLayer.setBounds(bounds);
+    scanLines.setBounds(bounds);
+}
+
+void ScreenDisplay::setQuoteInfo(GrimlockQuote& quoteInfo)
+{
+    displayLayer.setQuoteInfo(quoteInfo);
+    bloomLayer.updateBloom();
+}
+
+void ScreenDisplay::setSizeRatio(float newSizeRatio)
+{
+    sizeRatio = newSizeRatio;
+    displayLayer.setSizeRatio(sizeRatio);
+    scanLines.setLineThickness(sizeRatio * 2.0f);
+}
+
+//========================================================
+
+ScreenDisplay::DisplayLayer::DisplayLayer()
+{
+    title.setText("The Grimlock Strategies", juce::dontSendNotification);
+    linkButton.setButtonText("Watch >>");
+
+    title.setJustificationType(juce::Justification::centred);
+    epCode.setJustificationType(juce::Justification::centred);
+    epName.setJustificationType(juce::Justification::centred);
+    quote.setJustificationType(juce::Justification::centred);
+
+    quote.setMinimumHorizontalScale(0.95f);
+    quote.setColour(juce::Label::ColourIds::backgroundColourId, juce::Colour(0xC014191D));
+
+    addAndMakeVisible(title);
+    addAndMakeVisible(epCode);
+    addAndMakeVisible(epName);
+    addAndMakeVisible(linkButton);
+    addAndMakeVisible(screenshot);
+    addAndMakeVisible(quote);
+}
+
+void ScreenDisplay::DisplayLayer::paint(juce::Graphics& g)
+{
+    g.fillAll(juce::Colour(0xFF14191D));
+}
+
+void ScreenDisplay::DisplayLayer::resized()
+{
     auto bounds = getLocalBounds();
     const auto kerning = 0.1f;
-
-    scanLines.setBounds(bounds);
 
     title.setBounds(bounds.removeFromTop(juce::roundToInt(37.0f * sizeRatio)));
     title.setFont(juce::Font(juce::FontOptions().withHeight(37.0f * sizeRatio).withKerningFactor(kerning)));
@@ -70,7 +101,7 @@ void ScreenDisplay::resized()
     quote.setBounds(quoteBounds);
 }
 
-void ScreenDisplay::setQuoteInfo(GrimlockQuote& quoteInfo)
+void ScreenDisplay::DisplayLayer::setQuoteInfo(GrimlockQuote& quoteInfo)
 {
     quote.setText(quoteInfo.quote, juce::dontSendNotification);
     epCode.setText(juce::String("Episode:") + quoteInfo.episodeCode, juce::dontSendNotification);
@@ -86,10 +117,9 @@ void ScreenDisplay::setQuoteInfo(GrimlockQuote& quoteInfo)
     #endif
 }
 
-void ScreenDisplay::setSizeRatio(float newSizeRatio)
+void ScreenDisplay::DisplayLayer::setSizeRatio(float newSizeRatio)
 {
     sizeRatio = newSizeRatio;
-    scanLines.setLineThickness(sizeRatio * 2.0f);
 }
 
 //========================================================
@@ -120,4 +150,104 @@ void ScreenDisplay::ScanLines::resized()
 void ScreenDisplay::ScanLines::setLineThickness(float newThickness)
 {
     thickness = newThickness;
+}
+
+//========================================================
+
+ScreenDisplay::BloomLayer::BloomLayer(DisplayLayer& d) : display(d)
+{
+    setInterceptsMouseClicks(false, false);
+}
+
+void ScreenDisplay::BloomLayer::paint(juce::Graphics& g)
+{
+    if (!bloomEnabled || bloomIntensity <= 0.0f) {
+        return;
+    }
+    
+    if (needsBloomUpdate)
+    {
+        auto originalImage = display.createComponentSnapshot(display.getLocalBounds());
+        if (!originalImage.isNull())
+        {
+            cachedBloomImage = originalImage.createCopy().convertedToFormat(juce::Image::RGB);
+            gin::applyStackBlur(cachedBloomImage, blurRadius);
+            if (chromaticAberrationEnabled) {
+                applyChromaticAberration(cachedBloomImage, aberrationOffset);
+            }
+        }
+        needsBloomUpdate = false;
+    }
+
+    if (!cachedBloomImage.isNull())
+    {
+        g.setOpacity(bloomIntensity);
+        g.drawImageWithin(cachedBloomImage, 0, 0, getWidth(), getHeight(), juce::RectanglePlacement::fillDestination);
+        g.setOpacity(1.0f);
+    }
+}
+
+void ScreenDisplay::BloomLayer::updateBloom()
+{
+    needsBloomUpdate = true;
+    repaint();
+}
+
+void ScreenDisplay::BloomLayer::setBloomSettings(bool enabled, float intensity, int radius)
+{
+    if (bloomEnabled != enabled || bloomIntensity != intensity || blurRadius != radius)
+    {
+        bloomEnabled = enabled;
+        bloomIntensity = intensity;
+        blurRadius = radius;
+        updateBloom();
+    }
+}
+
+void ScreenDisplay::BloomLayer::setChromaticAberration(bool enabled, int offset)
+{
+    if (chromaticAberrationEnabled != enabled || aberrationOffset != offset)
+    {
+        chromaticAberrationEnabled = enabled;
+        aberrationOffset = offset;
+        updateBloom();
+    }
+}
+
+void ScreenDisplay::BloomLayer::applyChromaticAberration(juce::Image& source, int offset)
+{
+    if (source.isNull() || offset == 0) {
+        return;
+    }
+
+    jassert(source.getFormat() == juce::Image::PixelFormat::RGB);
+    
+    const int width = source.getWidth();
+    const int height = source.getHeight();
+    const int xLimit = width - 1;
+    
+    juce::Image::BitmapData bitmapData(source, 0, 0, width, height, juce::Image::BitmapData::readWrite);
+    
+    for (int y = 0; y < height; ++y)
+    {
+        juce::uint8* linePtr = bitmapData.getLinePointer(y);
+        
+        for (int x = 0; x < width; ++x)
+        {
+            int blueX = juce::jlimit(0, xLimit, x + offset);
+            juce::uint8* currentPixel = linePtr + (x * bitmapData.pixelStride);
+            juce::uint8* bluePixel = linePtr + (blueX * bitmapData.pixelStride);
+            
+            currentPixel[2] = bluePixel[2];
+        }
+        
+        for (int x = width - 1; x >= 0; --x)
+        {
+            int redX = juce::jlimit(0, xLimit, x - offset);
+            juce::uint8* currentPixel = linePtr + (x * bitmapData.pixelStride);
+            juce::uint8* redPixel = linePtr + (redX * bitmapData.pixelStride);
+            
+            currentPixel[0] = redPixel[0];
+        }
+    }
 }
