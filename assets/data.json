@@ -61,9 +61,8 @@
             "quotes":
             [
                 {"0":"Here come me, Grimlock!"},
-                {"1":"Autobots bite off more than they can chew, then send for Dinobots."},
-                {"2":"Me, Grimlock here again..."},
-                {"3":"Good, Megatron!\nWe love stupid enemies."}
+                {"1":"Me, Grimlock here again..."},
+                {"2":"Good, Megatron!\nWe love stupid enemies."}
             ]
         },
         {
@@ -77,14 +76,13 @@
             "episode":"S02E19", "title":"Desertion of the Dinobots Part 1", "link":"https://youtu.be/fe6sGQHFbW8?si=37bNfG6RHpQvlZxT",
             "quotes":
             [
-                {"0": "Me, Grimlock no like orders."},
+                {"0": "Me, Grimlock no take orders. Never."},
                 {"1": "No! Dinobots no go!"},
-                {"2": "Me, Grimlock no take orders. Never."},
-                {"3": "Us fight when us want to."},
-                {"4": "Make trouble,\nme, Grimlock crush you."},
-                {"5": "Me, Grimlock Dinobot!"},
-                {"6": "We no stand back!"},
-                {"7": "Me, Grimlock no come back."}
+                {"2": "Us fight when us want to."},
+                {"3": "Make trouble,\nme, Grimlock crush you."},
+                {"4": "Me, Grimlock Dinobot!"},
+                {"5": "We no stand back!"},
+                {"6": "Me, Grimlock no come back."}
             ]
         },
         {
@@ -153,15 +151,14 @@
             "episode":"S03E07", "title":"Chaos", "link":"https://youtu.be/XbATwtlvPzI?si=nK3dVuBkBrx0h031",
             "quotes":
             [
-                {"0": "You meet up with Chaos?"},
-                {"1": "Me, Grimlock say please."},
-                {"2": "Me, Grimlock no understand."},
-                {"3": "Me, Grimlock tired of waiting."},
-                {"4": "Where it come from?"},
-                {"5": "Why it make noise?"},
-                {"6": "We all go together."},
-                {"7": "Me, Grimlock never afraid of Chaos."},
-                {"8": "Me, Grimlock want to hear story..."}
+                {"0": "Me, Grimlock say please."},
+                {"1": "Me, Grimlock no understand."},
+                {"2": "Me, Grimlock tired of waiting."},
+                {"3": "Where it come from?"},
+                {"4": "Why it make noise?"},
+                {"5": "We all go together."},
+                {"6": "Me, Grimlock never afraid of Chaos."},
+                {"7": "Me, Grimlock want to hear story..."}
             ]
         },
         {
@@ -186,6 +183,50 @@
                 {"7": "Sound good to me, Grimlock."},
                 {"8": "Me, Grimlock mixed up."},
                 {"9": "What's so funny?"}
+            ]
+        },
+        {
+            "episode":"S03E24", "title":"Grimlock's New Brain", "link":"https://youtu.be/Y32IZVXBU9s?si=Hio-3deAnh1HleuR",
+            "quotes":
+            [
+                {"0": "Me, Grimlock ready,\nbut forgot which button."},
+                {"1": "This switch real rad. Gonna pull."},
+                {"2": "What go wrong?"},
+                {"3": "Me want to try."},
+                {"4": "Stupid machine!"},
+                {"5": "No need guide. Have Grimlock!"},
+                {"6": "Me, Grimlock got to turn off machine right now."},
+                {"7": "Some other time perhaps?"},
+                {"8": "You're just in time to assist me."},
+                {"9": "It will do nicely."},
+                {"10": "You are all my new creations. I, Grimlock shall call you the Technobots."},
+                {"11": "You can and you will."},
+                {"12": "Merge!"},
+                {"13": "You will now receive my intelligence."},
+                {"14": "Me, Grimlock say you smart now."},
+                {"15": "Me, Grimlock say no fun to be genius all of time."}
+            ]
+        },
+        {
+            "episode":"S03E26", "title":"Call of the Primitives", "link":"https://youtu.be/mwSfiiZsQrU?si=OGOt2mvKJUwIIInX",
+            "quotes":
+            [
+                {"0": "Me, Grimlock must answer call.\nEven though Grimlock don't know who calls."},
+                {"1": "Grimlock stomp enemies!"},
+                {"2": "Grimlock know what he does!"},
+                {"3": "From now on, Grimlock follow others."},
+                {"4": "Whoah. Me, Grimlock love long-ago tale."},
+                {"5": "Grimlock moving as fast as he can!"},
+                {"6": "Good thing Grimock have hard head."},
+                {"7": "Me, Grimlock feel important."},
+                {"8": "Grimlock here to save universe."},
+                {"9": "You are creator?"},
+                {"10": "Make everything like it was before."},
+                {"11": "Me, Grimlock solve problem."},
+                {"12": "Me, Grimlock think I did right thing."},
+                {"13": "Me, Grimlock hero!"},
+                {"14": "Why you call Grimlock stupid?"},
+                {"15": "Me, Grimlock think that is smartest thing I ever done."}
             ]
         }
     ]
