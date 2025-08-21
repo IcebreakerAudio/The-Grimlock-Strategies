@@ -110,7 +110,7 @@ void ScreenDisplay::DisplayLayer::setQuoteInfo(GrimlockQuote& quoteInfo)
 
     int dataSize = 0;
     auto* data = BinaryData::getNamedResource(quoteInfo.imageCode.toRawUTF8(), dataSize);
-    screenshot.setImage(juce::ImageFileFormat::loadFrom(data, dataSize));
+    screenshot.setImage(juce::ImageFileFormat::loadFrom(data, static_cast<size_t>(dataSize)));
 
     #if JUCE_DEBUG
         resized();
@@ -170,7 +170,7 @@ void ScreenDisplay::BloomLayer::paint(juce::Graphics& g)
         auto originalImage = display.createComponentSnapshot(display.getLocalBounds());
         if (!originalImage.isNull())
         {
-            cachedBloomImage = originalImage.createCopy().convertedToFormat(juce::Image::RGB);
+            cachedBloomImage = originalImage.createCopy();
             gin::applyStackBlur(cachedBloomImage, blurRadius);
             if (chromaticAberrationEnabled) {
                 applyChromaticAberration(cachedBloomImage, aberrationOffset);
@@ -195,7 +195,7 @@ void ScreenDisplay::BloomLayer::updateBloom()
 
 void ScreenDisplay::BloomLayer::setBloomSettings(bool enabled, float intensity, int radius)
 {
-    if (bloomEnabled != enabled || bloomIntensity != intensity || blurRadius != radius)
+    if (bloomEnabled != enabled || !juce::approximatelyEqual(bloomIntensity, intensity) || blurRadius != radius)
     {
         bloomEnabled = enabled;
         bloomIntensity = intensity;
@@ -220,7 +220,8 @@ void ScreenDisplay::BloomLayer::applyChromaticAberration(juce::Image& source, in
         return;
     }
 
-    jassert(source.getFormat() == juce::Image::PixelFormat::RGB);
+    jassert(source.getFormat() == juce::Image::PixelFormat::RGB
+            || source.getFormat() == juce::Image::PixelFormat::ARGB);
     
     const int width = source.getWidth();
     const int height = source.getHeight();
