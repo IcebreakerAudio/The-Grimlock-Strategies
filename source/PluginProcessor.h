@@ -46,12 +46,15 @@ public:
         quoteIndex = index;
     }
 
+    juce::var& getGrimlockData() { return grimlockData; }
+
     juce::Value quoteValue { juce::var(-1) };
 
 private:
     //==============================================================================
 
     int quoteIndex = -1;
+    juce::var grimlockData;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

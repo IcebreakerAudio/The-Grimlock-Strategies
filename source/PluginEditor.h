@@ -27,11 +27,21 @@ private:
     std::unique_ptr<juce::Drawable> background;
     ScreenDisplay display;
 
+    struct Layout
+    {
+        static constexpr float REFERENCE_WIDTH = 750.0f;
+        
+        static constexpr float DISPLAY_X = 94.0f;
+        static constexpr float DISPLAY_Y = 76.0f;
+        static constexpr float DISPLAY_WIDTH = 560.0f;
+        static constexpr float DISPLAY_HEIGHT = 398.0f;
+    };
+
+    void loadAndDisplayQuote();
+
     #if JUCE_DEBUG
         juce::TextButton reroll {"Reroll", "Reroll"};
     #endif
-
-    juce::var getGrimlockData(); 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

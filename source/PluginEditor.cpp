@@ -6,7 +6,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     : AudioProcessorEditor (&p), processorRef (p)
 {
     processorRef.quoteValue.addListener(this);
-    auto quoteIndex = processorRef.getQuoteIndex();
 
     // set default font
     auto& lnf = getLookAndFeel();
@@ -16,20 +15,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     // load background svg
     background = juce::Drawable::createFromImageData(BinaryData::Background_svg, BinaryData::Background_svgSize);
 
-    auto grimlock = getGrimlockData();
-    QuoteGenerator quoteGen;
-    GrimlockQuote quoteInfo;
-    if(quoteIndex == -1) {
-        quoteInfo = quoteGen.generateRandomQuote(grimlock);
-        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
-    }
-    else {
-        quoteInfo = quoteGen.getQuoteFromIndex(grimlock, quoteIndex);
-    }
-
-    quoteInfo.printDebugInfo();
-
-    display.setQuoteInfo(quoteInfo);
+    loadAndDisplayQuote();
     addAndMakeVisible(display);
 
     // this button is for testing and debugging
@@ -37,9 +23,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
         addAndMakeVisible(reroll);
         reroll.onClick = [&]()
         {
-            auto grimlock = getGrimlockData();
+            auto& grimlockData = processorRef.getGrimlockData();
             QuoteGenerator quoteGen;
-            auto quoteInfo = quoteGen.generateRandomQuote(grimlock);
+            auto quoteInfo = quoteGen.generateRandomQuote(grimlockData);
 
             quoteInfo.printDebugInfo();
             display.setQuoteInfo(quoteInfo);
@@ -68,44 +54,46 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    auto bounds = getLocalBounds();
-    auto sizeRatio = bounds.toFloat().getWidth() / 750.0f;
+    const auto bounds = getLocalBounds();
+    const float sizeRatio = bounds.toFloat().getWidth() / Layout::REFERENCE_WIDTH;
 
     display.setSizeRatio(sizeRatio);
 
-    display.setBounds(
-        juce::roundToInt(94.0f * sizeRatio),
-        juce::roundToInt(76.0f * sizeRatio),
-        juce::roundToInt(560.0f * sizeRatio),
-        juce::roundToInt(398.0f * sizeRatio)
-    );
+    const auto displayBounds = juce::Rectangle<int>{
+        juce::roundToInt(Layout::DISPLAY_X * sizeRatio),
+        juce::roundToInt(Layout::DISPLAY_Y * sizeRatio),
+        juce::roundToInt(Layout::DISPLAY_WIDTH * sizeRatio),
+        juce::roundToInt(Layout::DISPLAY_HEIGHT * sizeRatio)
+    };
+    
+    display.setBounds(displayBounds);
 
     #if JUCE_DEBUG
-        reroll.setBounds(0,0,150,25);
+        reroll.setBounds(0, 0, 150, 25);
     #endif
 }
 
-juce::var AudioPluginAudioProcessorEditor::getGrimlockData()
+void AudioPluginAudioProcessorEditor::loadAndDisplayQuote()
 {
-    auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
-    auto json = juce::JSON::parse(string);
-    return json.getProperty("grimlock", "");
+    auto quoteIndex = int(processorRef.quoteValue.getValue());
+    auto& grimlockData = processorRef.getGrimlockData();
+    QuoteGenerator quoteGen;
+    GrimlockQuote quoteInfo;
+    if(quoteIndex < 0) {
+        quoteInfo = quoteGen.generateRandomQuote(grimlockData);
+        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
+    }
+    else {
+        quoteInfo = quoteGen.getQuoteFromIndex(grimlockData, quoteIndex);
+    }
+    #if JUCE_DEBUG
+        quoteInfo.printDebugInfo();
+    #endif
+    display.setQuoteInfo(quoteInfo);
 }
 
 void AudioPluginAudioProcessorEditor::valueChanged(juce::Value& value)
 {
     juce::ignoreUnused(value);
-    auto quoteIndex = int(processorRef.quoteValue.getValue());
-    auto grimlock = getGrimlockData();
-    QuoteGenerator quoteGen;
-    GrimlockQuote quoteInfo;
-    if(quoteIndex == -1) {
-        quoteInfo = quoteGen.generateRandomQuote(grimlock);
-        processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
-    }
-    else {
-        quoteInfo = quoteGen.getQuoteFromIndex(grimlock, quoteIndex);
-    }
-    quoteInfo.printDebugInfo();
-    display.setQuoteInfo(quoteInfo);
+    loadAndDisplayQuote();
 }

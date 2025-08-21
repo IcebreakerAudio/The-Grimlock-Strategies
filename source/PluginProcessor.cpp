@@ -8,6 +8,13 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                       )
 {
+    auto string = juce::String::createStringFromData(BinaryData::data_json, BinaryData::data_jsonSize);
+    auto json = juce::JSON::parse(string);
+
+    // the loaded json must have the "grimlock" property otherwise nothing works
+    jassert(json.hasProperty("grimlock"));
+
+    grimlockData = json.getProperty("grimlock", "");
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor()
@@ -96,6 +103,11 @@ void AudioPluginAudioProcessor::getStateInformation (juce::MemoryBlock& destData
 void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     auto xml = getXmlFromBinary(data, sizeInBytes);
+
+    if(xml == nullptr) {
+        return;
+    }
+
     quoteIndex = xml->getIntAttribute("QuoteIndex", -1);
 
     DBG("Quote Loaded:");
