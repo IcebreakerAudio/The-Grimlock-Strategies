@@ -31,7 +31,7 @@ void ScreenDisplay::setSizeRatio(float newSizeRatio)
 {
     sizeRatio = newSizeRatio;
     displayLayer.setSizeRatio(sizeRatio);
-    scanLines.setLineThickness(sizeRatio * 2.0f);
+    scanLines.setLineThickness(sizeRatio * 1.5f);
 }
 
 //========================================================

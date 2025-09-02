@@ -71,7 +71,7 @@ private:
         
         // Chromatic aberration settings
         bool chromaticAberrationEnabled = true;
-        int aberrationOffset = 4;
+        int aberrationOffset = 3;
         
         void applyChromaticAberration(juce::Image& source, int offset);
     };
