@@ -36,7 +36,7 @@ I am including this note in the interest of openess, but to also let it be known
 Personally I use [Visual Studio Code](https://code.visualstudio.com/) for working on and building the project, but you can also build from the terminal if you have CMake installed and set up for that.
 
 ## Install
-Pre-built binaries are available here. You just need to place them in the correct directory (info is available on the release page).
+Pre-built binaries are available [here](https://github.com/IcebreakerAudio/The-Grimlock-Strategies/releases/tag/v0.9.0). You just need to place them in the correct directory (info is available on the release page).
 
 Note that Apple have a very heavy-handed security system that will probably block the plugins from being used. You will need to update the MacOS security features to either allow unsigned files, or to exclude the plugin files (the method for how to do this changes now and again, so Google for the latest technique).
 
