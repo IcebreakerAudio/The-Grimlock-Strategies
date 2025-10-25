@@ -44,6 +44,7 @@ public:
     int getQuoteIndex() { return quoteIndex; }
     void setQuoteIndex(int index) {
         quoteIndex = index;
+        quoteValue.setValue(juce::var(quoteIndex));
     }
 
     juce::var& getGrimlockData() { return grimlockData; }

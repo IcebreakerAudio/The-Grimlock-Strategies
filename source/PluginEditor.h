@@ -24,6 +24,8 @@ private:
 
     AudioPluginAudioProcessor& processorRef;
 
+    int loadedQuoteIndex = -1138;
+
     std::unique_ptr<juce::Drawable> background;
     ScreenDisplay display;
 

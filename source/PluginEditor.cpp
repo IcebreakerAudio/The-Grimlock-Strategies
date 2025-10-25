@@ -76,6 +76,12 @@ void AudioPluginAudioProcessorEditor::resized()
 void AudioPluginAudioProcessorEditor::loadAndDisplayQuote()
 {
     auto quoteIndex = int(processorRef.quoteValue.getValue());
+
+    if(loadedQuoteIndex == quoteIndex) {
+        return;
+    }
+
+    loadedQuoteIndex = quoteIndex;
     auto& grimlockData = processorRef.getGrimlockData();
     QuoteGenerator quoteGen;
     GrimlockQuote quoteInfo;
