@@ -23,6 +23,13 @@ The effect was built using the [JUCE Framework](https://github.com/juce-framewor
 
 The UI uses the **Jersey10** font which has an OLF license.
 
+## A Note on the use of Claude AI
+I have included a `CLAUDE.md` file in this repository. While the majority of the project was written by a human (me), Claude was used towards the end for assistance in refactorings, optimizations and bug fixes.
+
+In my experience, tools like Claude are best viewed as advanced auto-complete. I find them to be unreliable with large or complex tasks, especially for audio projects with concurrency and realtime processing concerns. However they do save time when writing code that requires a lot of typing, but not a lot of thinking.
+
+I am including this note in the interest of openess, but to also let it be known that I hand-selected all the included quotes while watching every episode of the original Transformers cartoon that includes Grimlock.
+
 ## Build
 **The Grimlock Strategies** can be built using CMake. The CMake files were based off the [pamplejuce](https://github.com/sudara/pamplejuce) template, but simplified.
 
