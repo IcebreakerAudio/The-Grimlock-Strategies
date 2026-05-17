@@ -14,6 +14,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     // load background svg
     background = juce::Drawable::createFromImageData(BinaryData::Background_svg, BinaryData::Background_svgSize);
+    addAndMakeVisible(background.get());
 
     loadAndDisplayQuote();
     addAndMakeVisible(display);
@@ -21,14 +22,15 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     // this button is for testing and debugging
     #if JUCE_DEBUG
         addAndMakeVisible(reroll);
-        reroll.onClick = [&]()
+        reroll.onClick = [this]()
         {
             auto& grimlockData = processorRef.getGrimlockData();
             QuoteGenerator quoteGen;
             auto quoteInfo = quoteGen.generateRandomQuote(grimlockData);
+            if(!quoteInfo) return;
 
-            quoteInfo.printDebugInfo();
-            display.setQuoteInfo(quoteInfo);
+            quoteInfo->printDebugInfo();
+            display.setQuoteInfo(*quoteInfo);
             processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
         };
     #endif
@@ -46,17 +48,14 @@ AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
 }
 
 //==============================================================================
-void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
-{
-    g.fillAll(juce::Colours::black);
-    background->drawWithin(g, getLocalBounds().toFloat(), juce::RectanglePlacement::fillDestination, 1.0f);
-}
+void AudioPluginAudioProcessorEditor::paint (juce::Graphics& /* g */) {}
 
 void AudioPluginAudioProcessorEditor::resized()
 {
     const auto bounds = getLocalBounds();
     const float sizeRatio = bounds.toFloat().getWidth() / Layout::REFERENCE_WIDTH;
 
+    background->setTransformToFit(bounds.toFloat(), juce::RectanglePlacement::fillDestination);
     display.setSizeRatio(sizeRatio);
 
     const auto displayBounds = juce::Rectangle<int>{
@@ -84,7 +83,7 @@ void AudioPluginAudioProcessorEditor::loadAndDisplayQuote()
     loadedQuoteIndex = quoteIndex;
     auto& grimlockData = processorRef.getGrimlockData();
     QuoteGenerator quoteGen;
-    GrimlockQuote quoteInfo;
+    std::optional<GrimlockQuote> quoteInfo;
     if(quoteIndex < 0) {
         quoteInfo = quoteGen.generateRandomQuote(grimlockData);
         processorRef.setQuoteIndex(quoteGen.getQuoteIndex());
@@ -92,10 +91,11 @@ void AudioPluginAudioProcessorEditor::loadAndDisplayQuote()
     else {
         quoteInfo = quoteGen.getQuoteFromIndex(grimlockData, quoteIndex);
     }
+    if(!quoteInfo) return;
     #if JUCE_DEBUG
-        quoteInfo.printDebugInfo();
+        quoteInfo->printDebugInfo();
     #endif
-    display.setQuoteInfo(quoteInfo);
+    display.setQuoteInfo(*quoteInfo);
 }
 
 void AudioPluginAudioProcessorEditor::valueChanged(juce::Value& value)

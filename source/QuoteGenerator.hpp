@@ -2,21 +2,15 @@
 #pragma once
 
 #include <juce_core/juce_core.h>
+#include <optional>
 #include <random>
 
 struct GrimlockQuote
 {
-    bool isValid = false;
     juce::String quote, episodeCode, episodeName, link, imageCode;
 
     void printDebugInfo()
     {
-        if(!isValid)
-        {
-            DBG("No Quote");
-            return;
-        }
-
         DBG(episodeCode);
         DBG(episodeName);
         DBG(quote);
@@ -29,7 +23,7 @@ class QuoteGenerator
 {
     public:
 
-        GrimlockQuote getQuoteFromIndex(juce::var& var, int index)
+        [[nodiscard]] std::optional<GrimlockQuote> getQuoteFromIndex(const juce::var& var, int index)
         {
             jassert(var.isArray());
 
@@ -39,7 +33,13 @@ class QuoteGenerator
 
             for(auto& e : *array)
             {
-                auto size = e.getProperty("quotes",{}).getArray()->size();
+                auto* quoteArray = e.getProperty("quotes",{}).getArray();
+                jassert(quoteArray != nullptr);
+                if(quoteArray == nullptr) {
+                    continue;
+                }
+
+                auto size = quoteArray->size();
                 if(index >= size)
                 {
                     index -= size;
@@ -50,11 +50,14 @@ class QuoteGenerator
                     quoteInfo.episodeName = e.getProperty("title", "title not found").toString();
                     quoteInfo.link = e.getProperty("link", "link not found").toString();
 
-                    auto qArray = *(e.getProperty("quotes",{}).getArray());
-                    quoteInfo.quote = qArray[index].getProperty(juce::String(index), "quote not found").toString();
+                    auto qArray = *(quoteArray);
+                    quoteInfo.quote = qArray[index].getProperty(juce::String(index), juce::var()).toString();
+
+                    if(quoteInfo.quote.isEmpty())
+                        return std::nullopt;
 
                     quoteInfo.imageCode = quoteInfo.episodeCode + "_";
-                    if(quoteInfo.imageCode.compare("Movie_") == 0) {
+                    if(quoteInfo.imageCode == "Movie_") {
                         quoteInfo.imageCode = "movie_";
                     }
                     index += 1;
@@ -63,18 +66,14 @@ class QuoteGenerator
                     }
                     quoteInfo.imageCode += juce::String(index) + "_png";
 
-                    quoteInfo.isValid = quoteInfo.quote.compare("quote not found") != 0;
-
                     return quoteInfo;
                 }
             }
 
-            quoteInfo.isValid = false;
-
-            return quoteInfo;
+            return std::nullopt;
         }
 
-        GrimlockQuote generateRandomQuote(juce::var& var)
+        [[nodiscard]] std::optional<GrimlockQuote> generateRandomQuote(const juce::var& var)
         {
             jassert(var.isArray());
 
@@ -95,7 +94,7 @@ class QuoteGenerator
             return getQuoteFromIndex(var, quoteIndex);
         }
 
-        int getQuoteIndex() { return quoteIndex; }
+        int getQuoteIndex() const { return quoteIndex; }
 
     private:
 

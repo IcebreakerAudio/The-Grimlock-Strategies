@@ -32,7 +32,7 @@ private:
         void paint(juce::Graphics& g) override;
         void resized() override;
 
-        void setQuoteInfo(GrimlockQuote& quoteInfo);
+        void setQuoteInfo(const GrimlockQuote& quoteInfo);
         void setSizeRatio(float newSizeRatio);
 
     private:

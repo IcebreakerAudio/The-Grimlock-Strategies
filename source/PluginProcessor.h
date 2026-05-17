@@ -41,13 +41,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    int getQuoteIndex() { return quoteIndex; }
+    int getQuoteIndex() const { return quoteIndex; }
     void setQuoteIndex(int index) {
         quoteIndex = index;
         quoteValue.setValue(juce::var(quoteIndex));
     }
 
-    juce::var& getGrimlockData() { return grimlockData; }
+    const juce::var& getGrimlockData() const { return grimlockData; }
 
     juce::Value quoteValue { juce::var(-1) };
 

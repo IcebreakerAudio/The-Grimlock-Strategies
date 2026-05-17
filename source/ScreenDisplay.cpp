@@ -101,7 +101,7 @@ void ScreenDisplay::DisplayLayer::resized()
     quote.setBounds(quoteBounds);
 }
 
-void ScreenDisplay::DisplayLayer::setQuoteInfo(GrimlockQuote& quoteInfo)
+void ScreenDisplay::DisplayLayer::setQuoteInfo(const GrimlockQuote& quoteInfo)
 {
     quote.setText(quoteInfo.quote, juce::dontSendNotification);
     epCode.setText(juce::String("Episode:") + quoteInfo.episodeCode, juce::dontSendNotification);
@@ -110,11 +110,13 @@ void ScreenDisplay::DisplayLayer::setQuoteInfo(GrimlockQuote& quoteInfo)
 
     int dataSize = 0;
     auto* data = BinaryData::getNamedResource(quoteInfo.imageCode.toRawUTF8(), dataSize);
-    screenshot.setImage(juce::ImageFileFormat::loadFrom(data, static_cast<size_t>(dataSize)));
+    jassert(data != nullptr);
+    if(data == nullptr) {
+        return;
+    }
 
-    #if JUCE_DEBUG
-        resized();
-    #endif
+    screenshot.setImage(juce::ImageFileFormat::loadFrom(data, static_cast<size_t>(dataSize)));
+    resized();
 }
 
 void ScreenDisplay::DisplayLayer::setSizeRatio(float newSizeRatio)
